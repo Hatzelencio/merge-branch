@@ -1,0 +1,21 @@
+name: 'Merge Branch'
+description: 'Create a new merge directly on remote side.'
+author: 'Hatzel Renteria'
+inputs:
+  base:
+    description: 'The name of the base branch that the head will be merged into'
+    required: true
+  head:
+    description: 'Head reference to will merge. Default env variable is GITHUB_REF'
+    required: false
+    default: ''
+  repository:
+    description: 'Owner and Repository name. Default env variable is GITHUB_REPOSITORY'
+    required: false
+    default: ''
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+branding:
+  color: purple
+  icon: git-merge
