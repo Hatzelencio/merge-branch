@@ -1,5 +1,5 @@
-name: 'Merge Branch'
-description: 'Create a new merge directly on remote side.'
+name: 'Remote Merge Branch'
+description: 'Create a merge directly on remote side.'
 author: 'Hatzel Renteria'
 inputs:
   base:

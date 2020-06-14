@@ -1,6 +1,6 @@
 ## Merge Branch
 
-> Version: v0.0.0
+> Version: v0.0.1
 
 ------
 
@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Merge Branch
-        uses: Hatzelencio/merge-branch@v0.0.0
+        uses: Hatzelencio/merge-branch@v0.0.1
         with:
           base: "master"
         env:
@@ -32,7 +32,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Merge Branch
-        uses: Hatzelencio/merge-branch@v0.0.0
+        uses: Hatzelencio/merge-branch@v0.0.1
         with:
           base: "master"
           head: "develop"
