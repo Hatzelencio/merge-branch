@@ -2,20 +2,22 @@ package remote
 
 import (
 	"fmt"
-	"github.com/google/go-github/v32/github"
-	"golang.org/x/net/context"
-	"golang.org/x/oauth2"
 	"net/http"
 	"os"
 	"strings"
+
+	"github.com/google/go-github/v32/github"
+	"golang.org/x/net/context"
+	"golang.org/x/oauth2"
 )
 
 const (
-	token  = "GITHUB_TOKEN"
-	ghref  = "GITHUB_REF"
-	ghrepo = "GITHUB_REPOSITORY"
-	base   = "INPUT_BASE"
-	head   = "INPUT_HEAD"
+	token         = "GITHUB_TOKEN"
+	ghref         = "GITHUB_REF"
+	ghrepo        = "GITHUB_REPOSITORY"
+	base          = "INPUT_BASE"
+	head          = "INPUT_HEAD"
+	commitMessage = "INPUT_COMMITMESSAGE"
 )
 
 var (
@@ -86,6 +88,10 @@ func getRefHead() string {
 	return ref
 }
 
+func getCommitMessage() (string, bool) {
+	return os.LookupEnv(commitMessage)
+}
+
 func getOwnerRepo() (string, string) {
 	ownerRepo := strings.Split(os.Getenv(ghrepo), "/")
 	return ownerRepo[0], ownerRepo[1]
@@ -96,10 +102,19 @@ func Merge() error {
 	refBase := getRefBase()
 	refHead := getRefHead()
 	owner, repo := getOwnerRepo()
+	message, messagePresent := getCommitMessage()
 
 	req := github.RepositoryMergeRequest{
 		Base: &refBase,
 		Head: &refHead,
+	}
+
+	if messagePresent {
+		req = github.RepositoryMergeRequest{
+			Base:          &refBase,
+			Head:          &refHead,
+			CommitMessage: &message,
+		}
 	}
 	_, res, err := cli.Repositories.Merge(ctx, owner, repo, &req)
 

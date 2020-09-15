@@ -1,6 +1,6 @@
 ## Merge Branch
 
-> Version: v0.0.1
+> Version: v0.0.2
 
 ------
 
@@ -17,14 +17,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Merge Branch
-        uses: Hatzelencio/merge-branch@v0.0.1
+        uses: Hatzelencio/merge-branch@v0.0.2
         with:
           base: "master"
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
 ```
 
-If you prefer, you can set the head ref, you can override it.  
+If you prefer, you can set the head ref or the commit message to override it.  
 
 ```yaml
 jobs:
@@ -32,10 +32,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Merge Branch
-        uses: Hatzelencio/merge-branch@v0.0.1
+        uses: Hatzelencio/merge-branch@v0.0.2
         with:
           base: "master"
           head: "develop"
+          commitMessage: "Merge pull request #${{ github.payload.pull_request.number }} from {{ github.ref }}"
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
 ```

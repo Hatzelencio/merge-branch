@@ -9,6 +9,9 @@ inputs:
     description: 'Head reference to will merge. Default env variable is GITHUB_REF'
     required: false
     default: ''
+  commitMessage:
+    description: 'Commit message to override default.'
+    required: false
   repository:
     description: 'Owner and Repository name. Default env variable is GITHUB_REPOSITORY'
     required: false
