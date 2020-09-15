@@ -2,19 +2,21 @@ package remote
 
 import (
 	"fmt"
-	"github.com/google/go-github/v32/github"
-	"github.com/hatzelencio/merge-branch/utils/mocks"
-	"golang.org/x/net/context"
 	"net/http"
 	"os"
 	"testing"
+
+	"github.com/google/go-github/v32/github"
+	"github.com/hatzelencio/merge-branch/utils/mocks"
+	"golang.org/x/net/context"
 )
 
 type envVariables struct {
-	token      string
-	repository string
-	head       string
-	base       string
+	token         string
+	repository    string
+	head          string
+	base          string
+	commitMessage string
 }
 
 func init() {
@@ -23,10 +25,11 @@ func init() {
 
 func TestMergeSuccess(t *testing.T) {
 	params := envVariables{
-		token:      "secret-token",
-		repository: "owner/owner-repo",
-		head:       "aae1a1fef...",
-		base:       "heads/branch,heads/branch-two",
+		token:         "secret-token",
+		repository:    "owner/owner-repo",
+		head:          "aae1a1fef...",
+		base:          "heads/branch,heads/branch-two",
+		commitMessage: "Merged aae1a1fef into head",
 	}
 
 	setEnvVariables(params)
@@ -40,10 +43,11 @@ func TestMergeSuccess(t *testing.T) {
 
 func TestMergeNoContent(t *testing.T) {
 	params := envVariables{
-		token:      "secret-token",
-		repository: "owner/owner-repo",
-		head:       "aae1a1fef...",
-		base:       "heads/branch,heads/branch-two",
+		token:         "secret-token",
+		repository:    "owner/owner-repo",
+		head:          "aae1a1fef...",
+		base:          "heads/branch,heads/branch-two",
+		commitMessage: "Merged aae1a1fef into head",
 	}
 
 	setEnvVariables(params)
@@ -57,10 +61,11 @@ func TestMergeNoContent(t *testing.T) {
 
 func TestMergeConflict(t *testing.T) {
 	params := envVariables{
-		token:      "secret-token",
-		repository: "owner/owner-repo",
-		head:       "aae1a1fef...",
-		base:       "heads/branch,heads/branch-two",
+		token:         "secret-token",
+		repository:    "owner/owner-repo",
+		head:          "aae1a1fef...",
+		base:          "heads/branch,heads/branch-two",
+		commitMessage: "Merged aae1a1fef into head",
 	}
 
 	setEnvVariables(params)
@@ -74,10 +79,11 @@ func TestMergeConflict(t *testing.T) {
 
 func TestMergeBaseNotFound(t *testing.T) {
 	params := envVariables{
-		token:      "secret-token",
-		repository: "owner/owner-repo",
-		head:       "aae1a1fef...",
-		base:       "heads/branch,heads/branch-two",
+		token:         "secret-token",
+		repository:    "owner/owner-repo",
+		head:          "aae1a1fef...",
+		base:          "heads/branch,heads/branch-two",
+		commitMessage: "Merged aae1a1fef into head",
 	}
 
 	setEnvVariables(params)
@@ -91,10 +97,11 @@ func TestMergeBaseNotFound(t *testing.T) {
 
 func TestMergeHeadNotFound(t *testing.T) {
 	params := envVariables{
-		token:      "secret-token",
-		repository: "owner/owner-repo",
-		head:       "aae1a1fef...",
-		base:       "heads/branch,heads/branch-two",
+		token:         "secret-token",
+		repository:    "owner/owner-repo",
+		head:          "aae1a1fef...",
+		base:          "heads/branch,heads/branch-two",
+		commitMessage: "Merged aae1a1fef into head",
 	}
 
 	setEnvVariables(params)
@@ -111,6 +118,7 @@ func setEnvVariables(env envVariables) {
 	_ = os.Setenv("GITHUB_REPOSITORY", env.repository)
 	_ = os.Setenv("GITHUB_REF", env.head)
 	_ = os.Setenv("INPUT_BASE", env.base)
+	_ = os.Setenv("INPUT_COMMIT_MESSAGE", env.commitMessage)
 }
 
 func mockMergeSuccess() {
